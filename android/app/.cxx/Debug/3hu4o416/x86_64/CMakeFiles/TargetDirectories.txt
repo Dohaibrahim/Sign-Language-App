@@ -1,0 +1,2 @@
+C:/Users/rockit/Desktop/second_term/Sign-Language-App/android/app/.cxx/Debug/3hu4o416/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/rockit/Desktop/second_term/Sign-Language-App/android/app/.cxx/Debug/3hu4o416/x86_64/CMakeFiles/rebuild_cache.dir
