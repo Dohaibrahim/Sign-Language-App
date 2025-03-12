@@ -28,7 +28,6 @@ import 'package:sign_lang_app/features/learn/presentation/guidebook/guide_book_v
 import 'package:sign_lang_app/features/learn/presentation/learn_instructions_lets_start_view.dart';
 import 'package:sign_lang_app/features/learn/presentation/learn_instructions_welcome_msg_view.dart';
 
-import 'package:sign_lang_app/features/home_page/home_view.dart';
 import 'package:sign_lang_app/features/learn/presentation/manager/fetch_avatar_signbefore_quiz_cubit/fetch_avatar_signbefore_quiz_cubit.dart';
 import 'package:sign_lang_app/features/learn/presentation/manager/fetch_question_cubit.dart/fetch_question_cubit.dart';
 import 'package:sign_lang_app/features/levels/domain/usecase/fetch_levels_usecase.dart';

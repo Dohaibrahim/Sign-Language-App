@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:sign_lang_app/core/theming/colors.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
-import 'package:sign_lang_app/core/widgets/build_common_words_header.dart';
+import 'package:sign_lang_app/core/widgets/build_header.dart';
 import 'package:sign_lang_app/features/home_page/widgets/Horizontal_word_list_tem.dart';
 import 'package:sign_lang_app/features/home_page/widgets/home_app_bar.dart';
 import 'package:sign_lang_app/core/widgets/speak_with_hands.dart';
 import 'package:sign_lang_app/features/home_page/widgets/services_widget.dart';
+import 'package:sign_lang_app/features/learn/presentation/widgets/questions_tracker.dart';
 import '../../core/utils/sharedprefrence.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -50,7 +55,14 @@ class HomeViewBody extends StatelessWidget {
                     ),
                     const ServicesWidget(),
                     const SizedBox(height: 12),
-                    const BuildCommonWordsHeader(),
+                    const BuildsHeader(title : 'Your Progress',seeAllVisible  : false,),
+                     const SizedBox(height: 12),
+YourProgressItem(),
+ const SizedBox(height: 12),
+
+                   
+
+                    const BuildsHeader(title : 'Common Words', seeAllVisible: true,),
                     const SizedBox(height: 12),
                     const HorizontalWordList(),
                   ],
@@ -59,6 +71,77 @@ class HomeViewBody extends StatelessWidget {
             },
           ),
         ),
+      ),
+    );
+  }
+}
+
+class YourProgressItem extends StatelessWidget {
+  const YourProgressItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Row(
+      children: [
+        Container(
+          decoration:  BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+             color: ColorsManager.progressContainerColor,
+          ),
+       
+         height: 112,
+  width: 113, 
+        child: Center(child: SvgPicture.asset('assets/images/bodyParts.svg')),
+        ),
+        
+SizedBox(width: 20,),
+Column(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  // crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+
+Text('Daily Conversation',style: TextStyles.font20WhiteSemiBold.copyWith(fontWeight: FontWeight.bold),),
+Padding(
+  padding: const EdgeInsets.symmetric(vertical: 12),
+  child: Row(
+    children: [
+  SizedBox(
+    height:20 ,
+    width: 20,
+    child: SvgPicture.asset('assets/images/favourites.svg'),
+    
+    ),
+SizedBox(width: 6,),
+
+      Text('5 levels | 20 words',style: TextStyles.font16WhiteMedium,),
+    ],
+  ),
+),
+Customhometrackerbar()
+],)
+
+      ],
+    );
+  }
+}
+
+
+class Customhometrackerbar extends StatelessWidget {
+  const Customhometrackerbar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      
+      width: 180.w, // Smaller width to fit under text
+      child: LinearPercentIndicator(
+        barRadius: const Radius.circular(10),
+        animation: true,
+        animationDuration: 800,
+        lineHeight: 9, // Reduced height for a cleaner look
+        percent: 0.4, // Example progress (40%)
+        progressColor: const Color(0xff58CC02),
+        backgroundColor: Colors.white, // Darker background for contrast
       ),
     );
   }
