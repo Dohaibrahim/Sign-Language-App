@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sign_lang_app/features/learn/data/models/question_response.dart';
+import 'package:sign_lang_app/features/learn/data/models/question_response.dart' as model;
 import 'package:sign_lang_app/features/learn/presentation/manager/fetch_question_cubit.dart/fetch_question_cubit.dart';
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/quiz.dart';
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/result.dart';
@@ -38,26 +39,33 @@ class _QuizViewBodyState extends State<QuizViewBody> {
     });
   }
 
-  void _checkForContinueButton(List<Question> questions) {
-    // Ensure we don't access an invalid index
-    if (_questionIndex < questions.length) {
-      // Check if the current question has no options
-      if (questions[_questionIndex].options.isEmpty) {
-        _showContinueButton = true; // Set the flag to show the button
-      } else {
-        _showContinueButton = false; // Reset the flag
-      }
+void _checkForContinueButton(List<model.Question> questions) {
+  if (_questionIndex < questions.length) {
+    if (questions[_questionIndex].options.isEmpty || questions[_questionIndex].type == 'drag_drop') {
+      _showContinueButton = true;  // Show "Continue" button for drag-drop questions
+    } else {
+      _showContinueButton = false; // Hide for other types
     }
   }
+}
 
-  void _goToNextQuestion() {
-    setState(() {
-      _selectedAnswerIndex = null;
-      _showFeedback = false;
-      _showContinueButton = false; // Reset the continue button flag
-      _questionIndex += 1;
+void _goToNextQuestion() {
+  setState(() {
+    _selectedAnswerIndex = null;
+    _showFeedback = false;
+    _questionIndex += 1;
+
+    // Reset continue button visibility
+    _showContinueButton = false;
+
+    // Delay to ensure UI updates correctly
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {}); 
     });
-  }
+  });
+}
+
+
 
   void _resetQuiz() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -104,8 +112,7 @@ class _QuizViewBodyState extends State<QuizViewBody> {
                             showFeedback: _showFeedback,
                             onNextQuestion: _goToNextQuestion,
                           ),
-                          if (_showContinueButton) // Show continue button if flagged
-                            ContinueButton(text: 'Continue', onPressed: _goToNextQuestion),
+                         
                         ],
                       )
                     : Result(_totalScore, _resetQuiz);
