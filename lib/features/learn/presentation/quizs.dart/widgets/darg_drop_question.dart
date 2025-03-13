@@ -1,4 +1,7 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_lang_app/core/theming/colors.dart';
+import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
 import 'package:sign_lang_app/features/learn/data/models/question_response.dart' as model;
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/question.dart';
@@ -112,22 +115,35 @@ Question(
                 bool isFilled = droppedWords[index] != null;
                 bool isCorrectWord = correctWords[index] == droppedWords[index];
                 Color borderColor = isFilled ? (isCorrectWord ? Colors.green : Colors.red) : Colors.grey;
+return Container(
+  width: 100,
+  height: 50,
+  margin: EdgeInsets.all(10),
+  child: DottedBorder(
+    color: Colors.grey,
+    strokeWidth: 2,
+    dashPattern: [6, 3],
+    borderType: BorderType.RRect,
+    radius: Radius.circular(10),
+    child: Container(
+      decoration: BoxDecoration(
+        color: isFilled 
+            ? (isCorrectWord ? ColorsManager.green : Colors.red.withOpacity(0.5)) 
+            : Colors.grey[300], // Green for correct, Red for incorrect, Grey when empty
+        borderRadius: BorderRadius.circular(10),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        droppedWords[index] ?? "Drop here",
+        style: TextStyle(
+          fontSize: 18,
+          color: isFilled ? Colors.white : Colors.grey[700],
+        ),
+      ),
+    ),
+  ),
 
-                return Container(
-                  width: 100,
-                  height: 50,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: isFilled ? Colors.white : Colors.grey[300],
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: borderColor, width: 2),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    droppedWords[index] ?? "Drop here",
-                    style: TextStyle(fontSize: 18, color: isFilled ? Colors.black : Colors.grey[700]),
-                  ),
-                );
+);
               },
             );
           }),
@@ -137,19 +153,22 @@ Question(
 
         // Choices to drag
         Wrap(
+
+          alignment:WrapAlignment.center,
           spacing: 10,
+          runSpacing: 10,
           children: choices.map((word) {
             return Draggable<String>(
               data: word,
               child: Chip(
-                label: Text(word),
-                backgroundColor: Colors.blueAccent,
+                label: Text(word,style:TextStyles.font16WhiteMedium),
+                backgroundColor: Colors.blueGrey,
               ),
               feedback: Material(
                 color: Colors.transparent,
                 child: Chip(
-                  label: Text(word),
-                  backgroundColor: Colors.blueAccent,
+                  label: Text(word,style:TextStyles.font15BlackMedium),
+                  backgroundColor: Colors.grey,
                 ),
               ),
               childWhenDragging: Chip(
@@ -158,7 +177,9 @@ Question(
               ),
             );
           }).toList(),
+          
         ),
+          SizedBox(height: 50),
 
         // Continue Button (only if all slots are filled and feedback is shown)
         if (showFeedback && !droppedWords.contains(null))

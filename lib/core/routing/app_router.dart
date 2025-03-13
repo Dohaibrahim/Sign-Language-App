@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +14,6 @@ import 'package:sign_lang_app/features/categories/presentation/manager/cubit/cat
 import 'package:sign_lang_app/features/change_password/change_password_view.dart';
 import 'package:sign_lang_app/features/change_password/presentation/manager/change_password_cubit.dart';
 import 'package:sign_lang_app/features/common_words/presentation/common_words_view.dart';
-
 import 'package:sign_lang_app/features/dictionary/data/dictionary_repo_impl.dart';
 import 'package:sign_lang_app/features/dictionary/domain/usecases/fetch_dictionary_list_useCase.dart';
 import 'package:sign_lang_app/features/dictionary/presentation/dictionary_details_view.dart';
