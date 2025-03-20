@@ -477,10 +477,10 @@ import 'package:sign_lang_app/features/learn/presentation/manager/fetch_question
 import 'package:sign_lang_app/features/levels/domain/usecase/fetch_levels_usecase.dart';
 import 'package:sign_lang_app/features/levels/presentation/levels_view.dart';
 import 'package:sign_lang_app/features/learn/presentation/manager/score_tracker_cubit/score_tracker_cubit.dart';
-import 'package:sign_lang_app/features/learn/presentation/quizs.dart/avatar_sign_before_quiz_view.dart';
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/quiz_view.dart';
 import 'package:sign_lang_app/features/levels/presentation/manager/levels_cubit.dart';
 import 'package:sign_lang_app/features/onboarding/onboarding_view.dart';
+import 'package:sign_lang_app/features/translation/presentation/before_translation_view.dart';
 
 import '../../features/auth/presentation/login_view.dart';
 import '../../features/auth/presentation/register_view.dart';
@@ -646,6 +646,10 @@ class AppRouter {
             ),
           );
         }
+
+      case Routes.beforeTranslationScreen:
+        return MaterialPageRoute(
+            builder: (builder) => const BeforeTranslationView());
 
       case Routes.registerScreen:
         if (Platform.isIOS) {
