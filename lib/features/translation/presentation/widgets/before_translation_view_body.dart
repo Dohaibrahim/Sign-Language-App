@@ -17,7 +17,7 @@ class BeforeTranslationViewBody extends StatelessWidget {
               height: screenHeight * 0.05,
             ),
             Image.asset(
-              "assets/images/ai_translation_into.png",
+              "assets/images/before_translation_icon.png",
               height: screenHeight * 0.40,
             ),
             SizedBox(
