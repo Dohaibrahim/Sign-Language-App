@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sign_lang_app/features/learn/data/models/question_response.dart';
 import 'package:sign_lang_app/features/learn/data/models/question_response.dart' as model;
 import 'package:sign_lang_app/features/learn/presentation/manager/fetch_question_cubit.dart/fetch_question_cubit.dart';
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/quiz.dart';
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/result.dart';
-import 'package:sign_lang_app/features/learn/presentation/widgets/continue_button.dart';
 
 class QuizViewBody extends StatefulWidget {
   const QuizViewBody({super.key, required this.levelId});
-  final String levelId; // Store the levelId
+  final String levelId;
 
   @override
   State<QuizViewBody> createState() => _QuizViewBodyState();
@@ -20,7 +18,10 @@ class _QuizViewBodyState extends State<QuizViewBody> {
   var _totalScore = 0;
   int? _selectedAnswerIndex;
   bool _showFeedback = false;
-  bool _showContinueButton = false; // Flag to show continue button
+  bool _isRetryMode = false;
+  List<model.Question> incorrectQuestions = [];
+  List<model.Question> originalQuestions = []; // Store original questions
+  List<model.Question> currentQuestions = []; // Use this list dynamically
 
   @override
   void initState() {
@@ -35,44 +36,44 @@ class _QuizViewBodyState extends State<QuizViewBody> {
 
       if (score == 10) {
         _totalScore += score;
+      } else {
+        // Only add unique incorrect questions
+        if (!incorrectQuestions.contains(currentQuestions[_questionIndex])) {
+          incorrectQuestions.add(currentQuestions[_questionIndex]);
+        }
       }
     });
   }
 
-void _checkForContinueButton(List<model.Question> questions) {
-  if (_questionIndex < questions.length) {
-    if (questions[_questionIndex].options.isEmpty || questions[_questionIndex].type == 'drag_drop') {
-      _showContinueButton = true;  // Show "Continue" button for drag-drop questions
-    } else {
-      _showContinueButton = false; // Hide for other types
-    }
-  }
-}
+  void _goToNextQuestion() {
+    setState(() {
+      _selectedAnswerIndex = null;
+      _showFeedback = false;
 
-void _goToNextQuestion() {
-  setState(() {
-    _selectedAnswerIndex = null;
-    _showFeedback = false;
-    _questionIndex += 1;
-
-    // Reset continue button visibility
-    _showContinueButton = false;
-
-    // Delay to ensure UI updates correctly
-    Future.delayed(Duration(milliseconds: 300), () {
-      setState(() {}); 
+      if (_questionIndex < currentQuestions.length - 1) {
+        _questionIndex++;
+      } else if (!_isRetryMode && incorrectQuestions.isNotEmpty) {
+        // If first attempt ends and mistakes exist, retry only those
+        currentQuestions = List.from(incorrectQuestions);
+        incorrectQuestions.clear();
+        _questionIndex = 0;
+        _isRetryMode = true;
+      } else {
+        // If there are no more incorrect questions, end the quiz
+        _isRetryMode = false;
+        _questionIndex = currentQuestions.length; // This ensures Result() is shown
+      }
     });
-  });
-}
-
-
+  }
 
   void _resetQuiz() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
         _questionIndex = 0;
         _totalScore = 0;
-        _showContinueButton = false; // Reset the continue button flag
+        incorrectQuestions.clear();
+        _isRetryMode = false;
+        currentQuestions = List.from(originalQuestions); // Restore original questions
       });
     });
   }
@@ -89,33 +90,44 @@ void _goToNextQuestion() {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is FetchQuestionFailure) {
                 return Center(
-                    child: Text(
-                  'Error: ${state.errmessage}',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                ));
+                  child: Text(
+                    'Error: ${state.errmessage}',
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                );
               } else if (state is FetchQuestionSuccess) {
-                final questions = state.questions;
+                if (originalQuestions.isEmpty) {
+                  originalQuestions = state.questions;
+                  currentQuestions = List.from(originalQuestions);
+                }
 
-                // Check for the continue button condition
-                _checkForContinueButton(questions);
-
-                return _questionIndex < questions.length
-                    ? Column(
-                        children: [
-                          Quiz(
-                            answerQuestion: (score, index) =>
-                                _answerQuestion(score, index),
+                return Column(
+                  children: [
+                    if (_isRetryMode) // Show message when retrying mistaken questions
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "These are the questions you answered incorrectly. Try again!",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.amber,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    _questionIndex < currentQuestions.length
+                        ? Quiz(
+                            answerQuestion: _answerQuestion,
                             questionIndex: _questionIndex,
-                            questions: questions,
+                            questions: currentQuestions,
                             selectedAnswerIndex: _selectedAnswerIndex,
                             showFeedback: _showFeedback,
                             onNextQuestion: _goToNextQuestion,
-                          ),
-                         
-                        ],
-                      )
-                    : Result(_totalScore, _resetQuiz);
+                          )
+                        : Result(_totalScore, _resetQuiz),
+                  ],
+                );
               }
               return Container();
             },

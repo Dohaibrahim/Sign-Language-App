@@ -58,7 +58,7 @@ class Quiz extends StatelessWidget {
         ),
         Question(
           currentQuestion.question,
-          currentQuestion.signUrl,
+          currentQuestion.signUrls.first,
         ),
         ...answers.asMap().entries.map((entry) {
           final idx = entry.key;

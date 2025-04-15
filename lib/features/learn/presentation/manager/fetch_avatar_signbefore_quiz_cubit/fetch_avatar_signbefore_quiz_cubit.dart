@@ -27,14 +27,16 @@ class FetchAvatarSignbeforeQuizCubit extends Cubit<FetchAvatarSignbeforeQuizStat
         // Extracting signs from the questions
         final List<Question> signData = questionsList.map((question) {
           return Question(
+            id: question.id,
+            level: question.level,
+            signUrls: question.signUrls,
+            signTexts: question.signTexts,
+            type: question.type,
             question: question.question,
-            options: question.options, id: question.id,
-            correctOption: question.correctOption, level: question.level, signUrl:  question.signUrl
-            , signText: question.signText, type: question.type,
-            
-              
-              
-
+            options: question.options,
+            correctOptions: question.correctOptions,
+            createdAt: question.createdAt,
+            updatedAt: question.updatedAt,
           );
         }).toList();
 

@@ -27,7 +27,7 @@ class Question extends StatelessWidget {
         ),
 
         Image.network(
-          ApiUrls.baseURL + gifLink,
+         gifLink.replaceFirst("http://localhost:3000", ApiUrls.baseURL),
           width: screenWidth * 0.90,
           height: screenHeight * 0.40,
           errorBuilder: (context, error, stackTrace) {

@@ -100,7 +100,7 @@ Column(
   // crossAxisAlignment: CrossAxisAlignment.start,
   children: [
 
-Text('Daily Conversation',style: TextStyles.font20WhiteSemiBold.copyWith(fontWeight: FontWeight.bold),),
+Text('Daily Conversation',style: TextStyles.font20WhiteSemiBold. copyWith(color: Theme.of(context).colorScheme.onPrimary),),
 Padding(
   padding: const EdgeInsets.symmetric(vertical: 12),
   child: Row(
@@ -113,7 +113,7 @@ Padding(
     ),
 SizedBox(width: 6,),
 
-      Text('5 levels | 20 words',style: TextStyles.font16WhiteMedium,),
+      Text('5 levels | 20 words',style: TextStyles.font16WhiteMedium .copyWith(color: Theme.of(context).colorScheme.onPrimary),),
     ],
   ),
 ),
@@ -141,7 +141,7 @@ class Customhometrackerbar extends StatelessWidget {
         lineHeight: 9, // Reduced height for a cleaner look
         percent: 0.4, // Example progress (40%)
         progressColor: const Color(0xff58CC02),
-        backgroundColor: Colors.white, // Darker background for contrast
+        backgroundColor: Colors.grey[100], // Darker background for contrast
       ),
     );
   }

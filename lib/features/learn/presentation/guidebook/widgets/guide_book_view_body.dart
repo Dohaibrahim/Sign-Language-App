@@ -33,7 +33,7 @@ class GuideBookViewBody extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return GuideBookListViewItem(
                   gifUrl:
-                      state.AvatarList.map((q) => q.signUrl).toList()[index],
+                      state.AvatarList.map((q) => q.signUrls.first).toList()[index],
                   sign: state.AvatarList[index]); // Pass the sign object
             },
           );
@@ -90,7 +90,7 @@ class GuideBookListViewItem extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  sign.signText, // Display the sign text
+                  sign.signTexts.first, // Display the sign text
                   style: TextStyles.font20WhiteSemiBold,
                 ),
               ),
@@ -113,7 +113,7 @@ class GuideBookListViewItem extends StatelessWidget {
               width: 150,
               height: 150,
               child: NovaMessage(
-                text: sign.signText, // Use sign text for NovaMessage
+                text: sign.signTexts.first, // Use sign text for NovaMessage
               ),
             ),
           ),
