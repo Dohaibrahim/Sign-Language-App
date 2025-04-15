@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "471806072023",
+    "project_id": "sign-language-app-bff1c",
+    "storage_bucket": "sign-language-app-bff1c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471806072023:android:38ab8f7ae24929c83f8c92",
+        "android_client_info": {
+          "package_name": "com.example.sign_lang_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP1l9x2LjIFtY5a40RPQP0frzbzZjy3Og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
