@@ -24,7 +24,10 @@ class LevelsView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 22.0),
               child: GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routes.Guidebook);
+              context.pushNamed(Routes.Guidebook, arguments: {
+          'categoryId': categoryId,
+          'categoryName': categoryName
+                });
                 },
                 child: SizedBox(
                     height: 30,

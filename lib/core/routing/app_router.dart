@@ -147,22 +147,39 @@ class AppRouter {
               screen: const AboutUsView());
         }
 
-      case Routes.Guidebook:
-        if (Platform.isIOS) {
-          return CupertinoPageRoute(
-              builder: (builder) => BlocProvider(
-                    create: (context) => FetchAvatarSignbeforeQuizCubit(
-                        getIt<AvatarBeforeQuizUsecase>()),
-                    child: const GuideBookView(),
-                  ));
-        } else {
-          return PageNavAnimation.applyPageAnimation(
-              screen: BlocProvider(
-            create: (context) => FetchAvatarSignbeforeQuizCubit(
-                getIt<AvatarBeforeQuizUsecase>()),
-            child: const GuideBookView(),
-          ));
-        }
+case Routes.Guidebook:
+  final args = settings.arguments;
+  if (args is Map && args['categoryId'] != null) {
+    final categoryId = args['categoryId'] as String;
+
+    if (Platform.isIOS) {
+      return CupertinoPageRoute(
+        builder: (builder) => BlocProvider(
+          create: (context) =>
+              FetchAvatarSignbeforeQuizCubit(getIt<AvatarBeforeQuizUsecase>()),
+          child: GuideBookView(categoryId: categoryId),
+        ),
+      );
+    } else {
+      return PageNavAnimation.applyPageAnimation(
+        screen: BlocProvider(
+          create: (context) =>
+              FetchAvatarSignbeforeQuizCubit(getIt<AvatarBeforeQuizUsecase>()),
+          child: GuideBookView(categoryId: categoryId),
+        ),
+      );
+    }
+  } else {
+    // لو الـ arguments null أو مش map، رجع شاشة خطأ
+    return MaterialPageRoute(
+      builder: (_) =>  Scaffold(
+        body: Center(
+          child: Text('Error: categoryId is missing!' ,style: TextStyle(color: Colors.black),),
+        ),
+      ),
+    );
+  }
+
       case Routes.quiz:
         if (Platform.isIOS) {
           return CupertinoPageRoute(
