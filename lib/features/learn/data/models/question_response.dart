@@ -55,8 +55,8 @@ class Question {
     return Question(
       id: json['_id'],
       level: json['level'],
-      signUrls: List<String>.from(json['sign_Urls'] ?? []),
-      signTexts: List<String>.from(json['sign_Texts'] ?? []),
+      signUrls: List<String>.from(json['sign_Url'] ?? []),
+      signTexts: List<String>.from(json['sign_Text'] ?? []),
       type: json['type'],
       question: json['question'],
       options: options,
@@ -70,8 +70,8 @@ class Question {
     return {
       '_id': id,
       'level': level,
-      'sign_Urls': signUrls,
-      'sign_Texts': signTexts,
+      'sign_Url': signUrls,
+      'sign_Text': signTexts,
       'type': type,
       'question': question,
       'options': options.map((o) => o.toJson()).toList(),

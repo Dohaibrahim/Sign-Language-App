@@ -14,7 +14,7 @@ class GuideBookViewBody extends StatelessWidget {
     // Fetch signs when the widget is built
     context
         .read<FetchAvatarSignbeforeQuizCubit>()
-        .fetchAvatarSignBeforeQuerList("67a4204dc40f603a9cc5183c");
+        .fetchAvatarSignBeforeQuerList("67599dbe5beef41c2da40f60");
 
     return BlocBuilder<FetchAvatarSignbeforeQuizCubit,
         FetchAvatarSignbeforeQuizState>(
@@ -31,10 +31,14 @@ class GuideBookViewBody extends StatelessWidget {
           return ListView.builder(
             itemCount: state.AvatarList.length,
             itemBuilder: (BuildContext context, int index) {
+              final sign = state.AvatarList[index];
+              final gifUrl = sign.signUrls.isNotEmpty
+                  ? sign.signUrls.first
+                  : ''; // Avoid exception if empty
               return GuideBookListViewItem(
-                  gifUrl:
-                      state.AvatarList.map((q) => q.signUrls.first).toList()[index],
-                  sign: state.AvatarList[index]); // Pass the sign object
+                gifUrl: gifUrl,
+                sign: sign,
+              );
             },
           );
         }
@@ -49,24 +53,26 @@ class GuideBookViewBody extends StatelessWidget {
 }
 
 class GuideBookListViewItem extends StatelessWidget {
-  final Question sign; // Change to accept Sign object
+  final Question sign;
   final String gifUrl;
-  const GuideBookListViewItem(
-      {super.key,
-      required this.sign,
-      required this.gifUrl}); // Update constructor
+
+  const GuideBookListViewItem({
+    super.key,
+    required this.sign,
+    required this.gifUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final signText =
+        sign.signTexts.isNotEmpty ? sign.signTexts.first : 'No Text';
+
     return Container(
       height: 230,
       width: 100,
-      margin: const EdgeInsets.symmetric(
-          vertical: 8.0, horizontal: 16.0), // Optional: Add some margin
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .colorScheme
-            .onPrimaryFixed, //const Color(0xff202F36),
+        color: Theme.of(context).colorScheme.onPrimaryFixed,
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           width: 3.0,
@@ -83,14 +89,12 @@ class GuideBookListViewItem extends StatelessWidget {
               height: 50,
               width: 100,
               decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .colorScheme
-                    .primaryFixedDim, //const Color(0xff141F23).,
+                color: Theme.of(context).colorScheme.primaryFixedDim,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
                 child: Text(
-                  sign.signTexts.first, // Display the sign text
+                  signText,
                   style: TextStyles.font20WhiteSemiBold,
                 ),
               ),
@@ -100,11 +104,12 @@ class GuideBookListViewItem extends StatelessWidget {
             left: 10,
             bottom: 48,
             child: SizedBox(
-                width: 150,
-                height: 150,
-                child: Image.network(ApiUrls.baseURL + gifUrl)
-                // Image.asset('assets/images/static_point_up1.png'), // Display the avatar
-                ),
+              width: 150,
+              height: 150,
+              child: gifUrl.isNotEmpty
+                  ? Image.network(ApiUrls.baseURL + gifUrl)
+                  : const Placeholder(),
+            ),
           ),
           Positioned(
             left: 150,
@@ -113,7 +118,7 @@ class GuideBookListViewItem extends StatelessWidget {
               width: 150,
               height: 150,
               child: NovaMessage(
-                text: sign.signTexts.first, // Use sign text for NovaMessage
+                text: signText,
               ),
             ),
           ),
