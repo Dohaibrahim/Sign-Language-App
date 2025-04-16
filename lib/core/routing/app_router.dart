@@ -308,22 +308,25 @@ case Routes.Guidebook:
           settings: settings,
         );*/
 
-      case Routes.LevelsView:
-        final arguments = settings.arguments
-            as Map<String, dynamic>?; // Safely cast arguments
-        final String categoryId = arguments?['categoryId'];
-        /* final String categoryId =
-            settings.arguments['categoryId'] ?? "" ; */ // Extract the argument
-        return MaterialPageRoute(
-          builder: (builder) => BlocProvider(
-            create: (context) => LevelsCubit(
-              getIt<FetchLevelsUsecase>(),
-            )..fetchLevels(
-                categoryId), // Call a method to fetch levels for the new category
-            child: const LevelsView(), // Pass the categoryId to the view
-          ),
-          settings: settings,
-        );
+     case Routes.LevelsView:
+  final arguments = settings.arguments as Map<String, dynamic>;
+  final String categoryId = arguments['categoryId'];
+  final String categoryName = arguments['categoryName'];
+  final String categoryImage = arguments['categoryImage'];
+
+  return MaterialPageRoute(
+    builder: (builder) => BlocProvider(
+      create: (context) => LevelsCubit(
+        getIt<FetchLevelsUsecase>(),
+      )..fetchLevels(categoryId),
+      child: LevelsView(
+        categoryName: categoryName,
+        categoryImage: categoryImage,
+      ),
+    ),
+    settings: settings,
+  );
+
       /* Platform.isIOS
             ? CupertinoPageRoute(
                 settings: settings,
