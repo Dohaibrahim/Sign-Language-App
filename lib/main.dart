@@ -11,6 +11,7 @@ import 'package:sign_lang_app/core/utils/constants.dart';
 import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
 import 'package:sign_lang_app/core/utils/simple_bloc_observer.dart';
 import 'package:sign_lang_app/features/dictionary/domain/entities/dictionary_entity.dart';
+import 'package:sign_lang_app/features/notification/local_notification/local_notification.dart';
 import 'package:sign_lang_app/features/setting/presentation/manager/theme_cubit/theme_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -20,6 +21,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  setupServiceLocator();
+  //await NotificationRemoteDataSourceImpl().initFirebase();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsFlutterBinding);
   // Retrieve user token from SharedPreferences
   String? userToken =
@@ -37,7 +40,8 @@ void main() async {
   await Hive.openBox<DictionaryEntity>(KDictionaryBox);
   await Hive.openBox<DictionaryEntity>(KSavedwordsBox);
   Bloc.observer = SimpleBlocObserver();
-  setupServiceLocator();
+  await initNotifications();
+  await scheduleDailyNotification();
   runApp(MyApp(
       isLoggedInUser: isLoggedInUser,
       isOnboardingCompleted: isOnboardingCompleted));

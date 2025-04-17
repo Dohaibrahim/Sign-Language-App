@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sign_lang_app/core/utils/api_service.dart';
 import 'package:sign_lang_app/features/auth/data/data_source/auth_remote_data_source.dart';
@@ -48,6 +49,8 @@ void setupServiceLocator() {
   getIt.registerSingleton<AuthRepo>(AuthRepoImpl());
 
   getIt.registerSingleton<CategoryRepo>(CategoriesRepoImpl());
+
+  //getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
 
 //getIt.registerSingleton<EditRemoteDataSource>(EditRemoteDataSourceImpl());
 
