@@ -4,17 +4,16 @@ const KDictionaryBox = 'dictionaryBox';
 const KSavedwordsBox = 'SavedwordsBox';
 
 class ApiUrls {
-  static const baseURL = "http://10.0.2.2:3000"; // android emulator
-  //static const baseURL = 'http://127.0.0.1:3000';
+  //static const baseURL = "http://10.0.2.2:3000"; // android emulator
+  static const baseURL = 'http://127.0.0.1:3000';
+  //static const baseURL = 'http://192.168.1.15:3000';
   //static const baseURL = 'http://localhost:3000';
 
   static const register = "$baseURL/api/auth/signup";
   static const login = "$baseURL/api/auth/signin";
   static const dictionary = "$baseURL/api/dectionary";
   static const questions = "$baseURL/api/level";
-  static const questions2 = "$baseURL/api/level/679091bac3d8ef98b2e24e90";
-  static const EditInfo = "$baseURL/user/67238199dbb8f29faf211d6a";
-
+  static const addImage = "$baseURL/api/user/uploadImage";
   static const category = "$baseURL/api/category";
 
   static const levels = "$baseURL/api/level";
@@ -40,4 +39,5 @@ class SharedPrefKeys {
   static const String userEmail = 'userEmail';
   static const String userid = 'id';
   static const String weclometestcomplete = 'weclometestcomplete';
+  static const String profileImagePath = 'profileImagePath';
 }

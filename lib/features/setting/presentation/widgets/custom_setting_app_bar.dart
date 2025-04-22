@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
 import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
+import 'package:sign_lang_app/core/widgets/profile_circle_avatar.dart';
+import 'package:sign_lang_app/features/setting/presentation/widgets/pick_profile_image.dart';
 
 class CustomSettingAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -23,15 +25,10 @@ class CustomSettingAppBar extends StatelessWidget
           } else {
             final userInfo = snapshot.data ??
                 {'username': 'User', 'email': 'user@example.com'};
+            //context.read<AddImageCubit>().addImage;
             return ListTile(
-              leading: CircleAvatar(
-                backgroundColor: Colors.blue[200],
-                radius: 30,
-                child: Text(
-                  userInfo['username']?.substring(0, 2).toUpperCase() ??
-                      "AA", // Use initials
-                  style: TextStyles.font20BlackExtraBold,
-                ),
+              leading: ProfileCircleAvatar(
+                currentUserName: userInfo['username']!,
               ),
               title: Text(
                 userInfo['username'] ?? 'User', // Main title
@@ -62,6 +59,5 @@ class CustomSettingAppBar extends StatelessWidget
   }
 
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(100); // Provide the preferred size here
+  Size get preferredSize => const Size.fromHeight(100);
 }

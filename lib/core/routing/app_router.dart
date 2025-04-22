@@ -480,6 +480,7 @@ import 'package:sign_lang_app/features/learn/presentation/manager/score_tracker_
 import 'package:sign_lang_app/features/learn/presentation/quizs.dart/quiz_view.dart';
 import 'package:sign_lang_app/features/levels/presentation/manager/levels_cubit.dart';
 import 'package:sign_lang_app/features/onboarding/onboarding_view.dart';
+import 'package:sign_lang_app/features/setting/presentation/manager/add_image_cubit/add_image_cubit.dart';
 import 'package:sign_lang_app/features/translation/presentation/before_translation_view.dart';
 
 import '../../features/auth/presentation/login_view.dart';
@@ -511,7 +512,10 @@ class AppRouter {
           builder: (_) => const OnboardingView(),
         );
       case Routes.SettingView:
-        return MaterialPageRoute(builder: (_) => const SettingView());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                create: (context) => AddImageCubit(),
+                child: const SettingView()));
 
       case Routes.DictionaryDetailsView:
         if (Platform.isIOS) {
@@ -822,9 +826,12 @@ class AppRouter {
 
       case Routes.bottomNavigation:
         return MaterialPageRoute(
-          builder: (_) => const BottomNavigation(
-            userName: '',
-            userEmail: '',
+          builder: (context) => BlocProvider(
+            create: (context) => AddImageCubit(),
+            child: const BottomNavigation(
+              userName: '',
+              userEmail: '',
+            ),
           ),
         );
 
