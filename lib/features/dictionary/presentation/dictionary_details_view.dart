@@ -18,8 +18,13 @@ class DictionaryDetailsView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text(title,style: TextStyles.font20WhiteSemiBold.copyWith(color: Theme.of(context).colorScheme.onPrimary), // Display the title in the AppBar
-      ), 
+        title: Text(
+          title,
+          style: TextStyles.font20WhiteSemiBold.copyWith(
+              color: Theme.of(context)
+                  .colorScheme
+                  .onPrimary), // Display the title in the AppBar
+        ),
       ),
       body: YouTubeVideoPlayer(videoId: videoId), // Pass the videoId
     );

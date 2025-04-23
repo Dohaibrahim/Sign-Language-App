@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:sign_lang_app/core/di/dependency_injection.dart';
 import 'package:sign_lang_app/core/errors/failure.dart';
@@ -9,9 +8,8 @@ import 'package:sign_lang_app/features/setting/domain/repos/repos.dart';
 
 class EditInfoRepoImpl extends EditInfoRepo {
   @override
-
-
-  Future<Either<Failure, EditInfoResponse>> editInfo(EditInfoReqParams params) async {
+  Future<Either<Failure, EditInfoResponse>> editInfo(
+      EditInfoReqParams params) async {
     try {
       final result = await getIt<EditRemoteDataSource>().editInfo(params);
 
@@ -28,5 +26,4 @@ class EditInfoRepoImpl extends EditInfoRepo {
       return Left(Failure(e.toString())); // Handle the exception as a failure
     }
   }
-
 }

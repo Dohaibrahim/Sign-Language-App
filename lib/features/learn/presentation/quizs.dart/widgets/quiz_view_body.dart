@@ -105,7 +105,8 @@ class _QuizViewBodyState extends State<QuizViewBody> {
                             onNextQuestion: _goToNextQuestion,
                           ),
                           if (_showContinueButton) // Show continue button if flagged
-                            ContinueButton(text: 'Continue', onPressed: _goToNextQuestion),
+                            ContinueButton(
+                                text: 'Continue', onPressed: _goToNextQuestion),
                         ],
                       )
                     : Result(_totalScore, _resetQuiz);

@@ -71,9 +71,7 @@ class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
   }
 }
 
-
-
-      /*
+/*
 class ProfileCircleAvatar extends StatefulWidget {
   final String currentUserName;
 

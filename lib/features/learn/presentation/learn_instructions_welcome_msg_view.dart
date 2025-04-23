@@ -9,6 +9,7 @@ class LearnInstructionsWelcomeMsgView extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
         body: CustomStack(
-            width: double.minPositive, child: LearnInstructionsWelcomeMsgViewBody()));
+            width: double.minPositive,
+            child: LearnInstructionsWelcomeMsgViewBody()));
   }
 }

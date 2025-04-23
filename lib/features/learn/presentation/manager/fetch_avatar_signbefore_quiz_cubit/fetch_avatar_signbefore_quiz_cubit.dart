@@ -5,10 +5,11 @@ import 'package:sign_lang_app/features/learn/domain/usecase/sign_before_quiz_use
 
 part 'fetch_avatar_signbefore_quiz_state.dart';
 
-class FetchAvatarSignbeforeQuizCubit extends Cubit<FetchAvatarSignbeforeQuizState> {
+class FetchAvatarSignbeforeQuizCubit
+    extends Cubit<FetchAvatarSignbeforeQuizState> {
   final AvatarBeforeQuizUsecase avatarBeforeQuizUsecase;
 
-  FetchAvatarSignbeforeQuizCubit(this.avatarBeforeQuizUsecase) 
+  FetchAvatarSignbeforeQuizCubit(this.avatarBeforeQuizUsecase)
       : super(FetchAvatarSignbeforeQuizInitial());
 
   Future<void> fetchAvatarSignBeforeQuerList(String levelId) async {
@@ -22,19 +23,20 @@ class FetchAvatarSignbeforeQuizCubit extends Cubit<FetchAvatarSignbeforeQuizStat
       },
       (learnRes) {
         // Assuming learnRes is of type LearnRes
-        final questionsList = learnRes.questions; // Extracting questions from the level
-        
+        final questionsList =
+            learnRes.questions; // Extracting questions from the level
+
         // Extracting signs from the questions
         final List<Question> signData = questionsList.map((question) {
           return Question(
             question: question.question,
-            options: question.options, id: question.id,
-            correctOption: question.correctOption, level: question.level, signUrl:  question.signUrl
-            , signText: question.signText, type: question.type,
-            
-              
-              
-
+            options: question.options,
+            id: question.id,
+            correctOption: question.correctOption,
+            level: question.level,
+            signUrl: question.signUrl,
+            signText: question.signText,
+            type: question.type,
           );
         }).toList();
 

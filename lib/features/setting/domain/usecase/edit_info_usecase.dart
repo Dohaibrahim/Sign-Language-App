@@ -8,13 +8,12 @@ import 'package:sign_lang_app/features/setting/domain/repo/edit_info_repo.dart';
 
 import '../../../../core/usecase/usecase.dart';
 
-
 class EditInfoUseCase extends UseCase<UserInfo, EditInformationEntity> {
   //final EditInformationRepo repo ;
   //EditInfoUseCase({required this.repo});
   @override
-  Future<Either<Failure , UserInfo>> call([EditInformationEntity? entity]) async {
+  Future<Either<Failure, UserInfo>> call(
+      [EditInformationEntity? entity]) async {
     return await getIt<EditInformationRepo>().updateUserInfo(entity!);
   }
-
 }

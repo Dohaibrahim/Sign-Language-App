@@ -61,9 +61,6 @@ class CustomStack extends StatelessWidget {
   }
 }
 
-
-
-
 /*Stack(
       children: [
         // Background gradient

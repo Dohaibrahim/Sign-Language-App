@@ -8,26 +8,18 @@ import 'package:sign_lang_app/features/setting/data/models/edit_info_request.dar
 import 'package:sign_lang_app/features/setting/data/models/edit_info_response.dart';
 
 abstract class EditRemoteDataSource {
-
   Future<Either<Failure, EditInfoResponse>> editInfo(EditInfoReqParams params);
-
-
-
 }
-
-
 
 class EditRemoteDataSourceImpl extends EditRemoteDataSource {
   @override
-  Future<Either<Failure, EditInfoResponse>> editInfo(EditInfoReqParams params) async{
-
-  try {
+  Future<Either<Failure, EditInfoResponse>> editInfo(
+      EditInfoReqParams params) async {
+    try {
       final url = await ApiUrls.getEditInfoUrl();
 
       var response = await getIt<DioClient>().put(
-
-      url,
-
+        url,
         data: params.toMap(),
       );
 
@@ -45,9 +37,8 @@ class EditRemoteDataSourceImpl extends EditRemoteDataSource {
       if (e.response != null) {
         print('Response data: ${e.response!.data}');
 
-        final Map<String, dynamic> responseData = e.response!.data is Map<String, dynamic>
-            ? e.response!.data
-            : {};
+        final Map<String, dynamic> responseData =
+            e.response!.data is Map<String, dynamic> ? e.response!.data : {};
 
         // Use fromJson to extract the error message
         final errorResponse = EditInfoResponse.fromJson(responseData);
@@ -60,12 +51,4 @@ class EditRemoteDataSourceImpl extends EditRemoteDataSource {
       return Left(Failure(e.toString()));
     }
   }
-
-
-
-
-
-  }
-
-
-
+}
