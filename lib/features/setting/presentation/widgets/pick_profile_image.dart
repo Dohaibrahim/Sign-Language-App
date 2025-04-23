@@ -71,7 +71,7 @@ class _PickProfileImageState extends State<PickProfileImage> {
               // Show locally saved image if available
 
               if (_localImagePath != null) {
-                log('local path image is $_localImagePath');
+                //log('local path image is $_localImagePath');
                 return Column(
                   children: [
                     CircleAvatar(

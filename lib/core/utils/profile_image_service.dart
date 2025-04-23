@@ -14,16 +14,13 @@ class ProfileImageService {
   static Future<String?> getProfileImagePath() async {
     final path =
         await SharedPrefHelper.getString(SharedPrefKeys.profileImagePath);
-    log('path in getProfile image path is $path');
+
     if (path != null) {
       final file = File(path);
       if (await file.exists()) {
-        //await getImageFromBackend(file, context);
-        log('path after if (await file.exists()) { is $path');
         return path;
       }
     }
-    //await getImageFromBackend();
     return null;
   }
 
@@ -42,34 +39,4 @@ class ProfileImageService {
     }
     await SharedPrefHelper.removeData(SharedPrefKeys.profileImagePath);
   }
-
-  /*static Future<void> getImageFromBackend(
-      File? image, BuildContext context) async {
-    if (image != null) {
-      final request = AddImageReq(
-        image: image,
-        token: await _getUserToken(),
-      );
-      context.read<AddImageCubit>().addImage(
-            addImageUseCase: getIt<AddImageUseCase>(),
-            addImageReq: request,
-          );
-      _loadLocalProfileImage(context);
-    }
-  }
-
-  static Future<String> _loadLocalProfileImage(BuildContext context) async {
-    final path = await ProfileImageService.getProfileImagePath(context);
-    if (path != null) {
-      final _localImagePath = path;
-      return _localImagePath;
-    }
-    return 'error';
-  }
-
-  static Future<String> _getUserToken() async {
-    final userToken =
-        await SharedPrefHelper.getStringNullable(SharedPrefKeys.userToken);
-    return userToken!;
-  }*/
 }

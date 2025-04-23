@@ -72,17 +72,7 @@ class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
 }
 
 
-        /*return CircleAvatar(
-          radius: 40,
-          backgroundImage:
-              imagePath != null ? FileImage(File(imagePath!)) : null,
-          child: imagePath == null
-              ? Text(widget.currentUserName.substring(0, 2).toUpperCase())
-              : null,
-        );*/
-      
 
-      
       /*
 class ProfileCircleAvatar extends StatefulWidget {
   final String currentUserName;
