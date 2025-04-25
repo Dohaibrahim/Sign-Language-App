@@ -216,12 +216,12 @@ class CategoriesMap extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routes.LevelsView, arguments: {
-          'categoryId': category.id,
-          'categoryName': category.name
-        }
-            // Pass category ID as an argument
-            );
+    context.pushNamed(Routes.LevelsView, arguments: {
+  'categoryId': category.id,
+  'categoryName': category.name,
+  'categoryImage': imagePath, 
+});
+
       },
       child: Container(
         height: 190,

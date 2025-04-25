@@ -1,6 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
+import 'package:sign_lang_app/features/learn/data/models/question_response.dart' as model;
+import 'package:sign_lang_app/features/learn/presentation/manager/score_tracker_cubit/score_tracker_cubit.dart';
+import 'package:sign_lang_app/features/learn/presentation/quizs.dart/widgets/answer.dart';
+import 'package:sign_lang_app/features/learn/presentation/widgets/continue_button.dart';
+import 'package:sign_lang_app/features/learn/presentation/widgets/questions_tracker.dart';
 
 class Question extends StatelessWidget {
   final String questionText;
@@ -20,7 +27,7 @@ class Question extends StatelessWidget {
         ),
 
         Image.network(
-          ApiUrls.baseURL + gifLink,
+         gifLink.replaceFirst("http://localhost:3000", ApiUrls.baseURL),
           width: screenWidth * 0.90,
           height: screenHeight * 0.40,
           errorBuilder: (context, error, stackTrace) {
@@ -55,3 +62,7 @@ class Question extends StatelessWidget {
     );
   }
 }
+
+
+
+

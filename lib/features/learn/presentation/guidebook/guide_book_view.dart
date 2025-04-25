@@ -4,8 +4,10 @@ import 'package:sign_lang_app/features/learn/presentation/guidebook/widgets/guid
 
 class GuideBookView extends StatelessWidget {
   const GuideBookView({
-    super.key,
+    super.key, required this.categoryId,
   });
+    final String categoryId;
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class GuideBookView extends StatelessWidget {
             style: TextStyles.font20WhiteSemiBold
                 .copyWith(color: Theme.of(context).colorScheme.onPrimary),
           )),
-      body: const GuideBookViewBody(),
+      body:  GuideBookViewBody(categoryId: categoryId,),
     );
   }
 }

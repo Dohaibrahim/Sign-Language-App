@@ -1,3 +1,4 @@
+
 /*import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -15,7 +16,6 @@ import 'package:sign_lang_app/features/categories/presentation/manager/cubit/cat
 import 'package:sign_lang_app/features/change_password/change_password_view.dart';
 import 'package:sign_lang_app/features/change_password/presentation/manager/change_password_cubit.dart';
 import 'package:sign_lang_app/features/common_words/presentation/common_words_view.dart';
-
 import 'package:sign_lang_app/features/dictionary/data/dictionary_repo_impl.dart';
 import 'package:sign_lang_app/features/dictionary/domain/usecases/fetch_dictionary_list_useCase.dart';
 import 'package:sign_lang_app/features/dictionary/presentation/dictionary_details_view.dart';
@@ -149,22 +149,39 @@ class AppRouter {
               screen: const AboutUsView());
         }
 
-      case Routes.Guidebook:
-        if (Platform.isIOS) {
-          return CupertinoPageRoute(
-              builder: (builder) => BlocProvider(
-                    create: (context) => FetchAvatarSignbeforeQuizCubit(
-                        getIt<AvatarBeforeQuizUsecase>()),
-                    child: const GuideBookView(),
-                  ));
-        } else {
-          return PageNavAnimation.applyPageAnimation(
-              screen: BlocProvider(
-            create: (context) => FetchAvatarSignbeforeQuizCubit(
-                getIt<AvatarBeforeQuizUsecase>()),
-            child: const GuideBookView(),
-          ));
-        }
+case Routes.Guidebook:
+  final args = settings.arguments;
+  if (args is Map && args['categoryId'] != null) {
+    final categoryId = args['categoryId'] as String;
+
+    if (Platform.isIOS) {
+      return CupertinoPageRoute(
+        builder: (builder) => BlocProvider(
+          create: (context) =>
+              FetchAvatarSignbeforeQuizCubit(getIt<AvatarBeforeQuizUsecase>()),
+          child: GuideBookView(categoryId: categoryId),
+        ),
+      );
+    } else {
+      return PageNavAnimation.applyPageAnimation(
+        screen: BlocProvider(
+          create: (context) =>
+              FetchAvatarSignbeforeQuizCubit(getIt<AvatarBeforeQuizUsecase>()),
+          child: GuideBookView(categoryId: categoryId),
+        ),
+      );
+    }
+  } else {
+    // لو الـ arguments null أو مش map، رجع شاشة خطأ
+    return MaterialPageRoute(
+      builder: (_) =>  Scaffold(
+        body: Center(
+          child: Text('Error: categoryId is missing!' ,style: TextStyle(color: Colors.black),),
+        ),
+      ),
+    );
+  }
+
       case Routes.quiz:
         if (Platform.isIOS) {
           return CupertinoPageRoute(
@@ -293,22 +310,25 @@ class AppRouter {
           settings: settings,
         );*/
 
-      case Routes.LevelsView:
-        final arguments = settings.arguments
-            as Map<String, dynamic>?; // Safely cast arguments
-        final String categoryId = arguments?['categoryId'];
-        /* final String categoryId =
-            settings.arguments['categoryId'] ?? "" ; */ // Extract the argument
-        return MaterialPageRoute(
-          builder: (builder) => BlocProvider(
-            create: (context) => LevelsCubit(
-              getIt<FetchLevelsUsecase>(),
-            )..fetchLevels(
-                categoryId), // Call a method to fetch levels for the new category
-            child: const LevelsView(), // Pass the categoryId to the view
-          ),
-          settings: settings,
-        );
+     case Routes.LevelsView:
+  final arguments = settings.arguments as Map<String, dynamic>;
+  final String categoryId = arguments['categoryId'];
+  final String categoryName = arguments['categoryName'];
+  final String categoryImage = arguments['categoryImage'];
+
+  return MaterialPageRoute(
+    builder: (builder) => BlocProvider(
+      create: (context) => LevelsCubit(
+        getIt<FetchLevelsUsecase>(),
+      )..fetchLevels(categoryId),
+      child: LevelsView(
+        categoryName: categoryName,
+        categoryImage: categoryImage,
+      ),
+    ),
+    settings: settings,
+  );
+
       /* Platform.isIOS
             ? CupertinoPageRoute(
                 settings: settings,

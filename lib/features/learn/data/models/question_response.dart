@@ -26,22 +26,26 @@ class LearnRes {
 class Question {
   final String id;
   final String level;
-  final String signUrl;
-  final String signText;
+  final List<String> signUrls;
+  final List<String> signTexts;
   final String type;
   final String question;
   final List<Option> options;
-  final String correctOption;
+  final List<String> correctOptions;
+  final String? createdAt;
+  final String? updatedAt;
 
   Question({
     required this.id,
     required this.level,
-    required this.signUrl,
-    required this.signText,
+    required this.signUrls,
+    required this.signTexts,
     required this.type,
     required this.question,
     required this.options,
-    required this.correctOption,
+    required this.correctOptions,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -51,12 +55,14 @@ class Question {
     return Question(
       id: json['_id'],
       level: json['level'],
-      signUrl: json['sign_Url'].replaceFirst('http://localhost:3000', '') ?? '',
-      signText: json['sign_Text'],
+      signUrls: List<String>.from(json['sign_Url'] ?? []),
+      signTexts: List<String>.from(json['sign_Text'] ?? []),
       type: json['type'],
       question: json['question'],
       options: options,
-      correctOption: json['correctOption'] ?? '',
+      correctOptions: List<String>.from(json['correctOptions'] ?? []),
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
     );
   }
 
@@ -64,12 +70,14 @@ class Question {
     return {
       '_id': id,
       'level': level,
-      'sign_Url': signUrl,
-      'sign_Text': signText,
+      'sign_Url': signUrls,
+      'sign_Text': signTexts,
       'type': type,
       'question': question,
       'options': options.map((o) => o.toJson()).toList(),
-      'correctOption': correctOption,
+      'correctOptions': correctOptions,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 }

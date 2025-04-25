@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sign_lang_app/core/routing/routes.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
+import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
 import 'package:sign_lang_app/features/levels/data/models/level_model.dart';
 import 'package:sign_lang_app/features/levels/presentation/manager/levels_cubit.dart';
 import 'package:sign_lang_app/features/levels/presentation/manager/levels_state.dart';
 
 class LevelsViewBody extends StatefulWidget {
-  const LevelsViewBody({super.key, required this.categoryId});
+  const LevelsViewBody({super.key, required this.categoryId, required this.categoryImage});
   final String? categoryId;
+  final String categoryImage;
 
   @override
   State<LevelsViewBody> createState() => _LevelsViewBodyState();
@@ -38,6 +40,8 @@ class _LevelsViewBodyState extends State<LevelsViewBody> {
                 child: GuideBookListViewItem(
                   index: index,
                   levelModel: state.levels[index],
+                    categoryImage: widget.categoryImage,
+
                 ),
               );
             },
@@ -52,7 +56,6 @@ class _LevelsViewBodyState extends State<LevelsViewBody> {
     );
   }
 }
-
 class GuideBookListViewItem extends StatelessWidget {
   final List<Color> bgcolors = [
     const Color(0xff00CD0D),
@@ -63,28 +66,34 @@ class GuideBookListViewItem extends StatelessWidget {
     const Color(0xffDDB06D),
   ];
 
-  final int index; // Add index as a parameter
+  final int index;
   final LevelModel levelModel;
+  final String categoryImage; // ✅ Add this
+
   GuideBookListViewItem({
     super.key,
     required this.index,
     required this.levelModel,
-  }); // Update constructor
+    required this.categoryImage, // ✅ Add this
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 80, bottom: 0),
       child: GestureDetector(
-        onTap: () {
+        onTap: () async {
+          await SharedPrefHelper.setData('category_name', levelModel.name); 
+          await SharedPrefHelper.setData('category_image', categoryImage); // ✅ Use the passed value
+          await SharedPrefHelper.setData('current_level', index + 1);
+          await SharedPrefHelper.setData('total_levels', 5);
+
           Navigator.pushNamed(context, Routes.quiz, arguments: levelModel.id);
-          //context.pushNamed(Routes.quiz, arguments: levelModel.id);
         },
         child: Container(
           height: 115,
-          width: double.infinity, // Use full width
-          margin: const EdgeInsets.symmetric(
-              vertical: 8.0, horizontal: 16.0), // Optional: Add some margin
+          width: double.infinity,
+          margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           decoration: BoxDecoration(
             color: bgcolors[index],
             borderRadius: BorderRadius.circular(10),
@@ -92,10 +101,9 @@ class GuideBookListViewItem extends StatelessWidget {
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              // Alternate avatar position based on index
               Positioned(
-                left: index % 2 == 0 ? 10 : null, // Left if even index
-                right: index % 2 == 0 ? null : 10, // Right if odd index
+                left: index % 2 == 0 ? 10 : null,
+                right: index % 2 == 0 ? null : 10,
                 bottom: 0,
                 child: SizedBox(
                   width: 180,
@@ -105,8 +113,6 @@ class GuideBookListViewItem extends StatelessWidget {
                       : 'assets/images/static_crossing_hands1_right.png'),
                 ),
               ),
-
-              // Centering the text vertically
               Align(
                 alignment: index % 2 == 0
                     ? Alignment.centerRight
@@ -117,7 +123,6 @@ class GuideBookListViewItem extends StatelessWidget {
                       left: index % 2 == 0 ? 0 : 30),
                   child: Text(
                     levelModel.name,
-                    //'Level ${index + 1}',
                     style: TextStyles.font30WhiteBold,
                   ),
                 ),

@@ -6,14 +6,17 @@ import 'package:sign_lang_app/core/utils/extentions.dart';
 import 'package:sign_lang_app/features/levels/presentation/widgets/levels_view_body.dart';
 
 class LevelsView extends StatelessWidget {
-  const LevelsView({super.key});
-
+  const LevelsView({super.key, required this.categoryName, required this.categoryImage});
+final String categoryName;
+  final String categoryImage;
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic>? arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final String categoryId = arguments!['categoryId'];
-    final String categoryName = arguments['categoryName'];
+  final String categoryId = arguments!['categoryId'];
+final String categoryName = arguments['categoryName'];
+final String categoryImage = arguments['categoryImage'];
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.onSurface,
       //Color(0xff141F23),
@@ -24,7 +27,10 @@ class LevelsView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 22.0),
               child: GestureDetector(
                 onTap: () {
-                  context.pushNamed(Routes.Guidebook);
+              context.pushNamed(Routes.Guidebook, arguments: {
+          'categoryId': categoryId,
+          'categoryName': categoryName
+                });
                 },
                 child: SizedBox(
                     height: 30,
@@ -60,6 +66,7 @@ class LevelsView extends StatelessWidget {
           )),
       body: LevelsViewBody(
         categoryId: categoryId,
+         categoryImage: categoryImage,
       ),
     );
   }

@@ -82,7 +82,7 @@ class _AchievementsViewBodyState extends State<AchievementsViewBody>
                     color: Colors.grey[500],
                   )),
               const QuestionsTracker(
-                totalQ: 2,
+                totalQ: 2, 
               ),
             ],
           ),
