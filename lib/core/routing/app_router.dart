@@ -1,4 +1,3 @@
-
 /*import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -619,20 +618,39 @@ class AppRouter {
         }
 
       case Routes.Guidebook:
-        if (Platform.isIOS) {
-          return CupertinoPageRoute(
+        final args = settings.arguments;
+        if (args is Map && args['categoryId'] != null) {
+          final categoryId = args['categoryId'] as String;
+
+          if (Platform.isIOS) {
+            return CupertinoPageRoute(
               builder: (builder) => BlocProvider(
-                    create: (context) => FetchAvatarSignbeforeQuizCubit(
-                        getIt<AvatarBeforeQuizUsecase>()),
-                    child: const GuideBookView(),
-                  ));
-        } else {
-          return PageNavAnimation.applyPageAnimation(
+                create: (context) => FetchAvatarSignbeforeQuizCubit(
+                    getIt<AvatarBeforeQuizUsecase>()),
+                child: GuideBookView(categoryId: categoryId),
+              ),
+            );
+          } else {
+            return PageNavAnimation.applyPageAnimation(
               screen: BlocProvider(
-            create: (context) => FetchAvatarSignbeforeQuizCubit(
-                getIt<AvatarBeforeQuizUsecase>()),
-            child: const GuideBookView(),
-          ));
+                create: (context) => FetchAvatarSignbeforeQuizCubit(
+                    getIt<AvatarBeforeQuizUsecase>()),
+                child: GuideBookView(categoryId: categoryId),
+              ),
+            );
+          }
+        } else {
+          // لو الـ arguments null أو مش map، رجع شاشة خطأ
+          return MaterialPageRoute(
+            builder: (_) => Scaffold(
+              body: Center(
+                child: Text(
+                  'Error: categoryId is missing!',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ),
+          );
         }
       case Routes.quiz:
         if (Platform.isIOS) {
@@ -767,18 +785,20 @@ class AppRouter {
         );*/
 
       case Routes.LevelsView:
-        final arguments = settings.arguments
-            as Map<String, dynamic>?; // Safely cast arguments
-        final String categoryId = arguments?['categoryId'];
-        /* final String categoryId =
-            settings.arguments['categoryId'] ?? "" ; */ // Extract the argument
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final String categoryId = arguments['categoryId'];
+        final String categoryName = arguments['categoryName'];
+        final String categoryImage = arguments['categoryImage'];
+
         return MaterialPageRoute(
           builder: (builder) => BlocProvider(
             create: (context) => LevelsCubit(
               getIt<FetchLevelsUsecase>(),
-            )..fetchLevels(
-                categoryId), // Call a method to fetch levels for the new category
-            child: const LevelsView(), // Pass the categoryId to the view
+            )..fetchLevels(categoryId),
+            child: LevelsView(
+              categoryName: categoryName,
+              categoryImage: categoryImage,
+            ),
           ),
           settings: settings,
         );

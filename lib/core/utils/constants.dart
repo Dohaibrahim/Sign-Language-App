@@ -4,17 +4,16 @@ const KDictionaryBox = 'dictionaryBox';
 const KSavedwordsBox = 'SavedwordsBox';
 
 class ApiUrls {
-
   //static const baseURL = "http://10.0.2.2:3000"; // android emulator
   static const baseURL = 'http://127.0.0.1:3000';
   //static const baseURL = 'http://192.168.1.15:3000';
   //static const baseURL = 'http://localhost:3000';
 
-
   static const register = "$baseURL/api/auth/signup";
   static const login = "$baseURL/api/auth/signin";
   static const dictionary = "$baseURL/api/dectionary";
   static const questions = "$baseURL/api/level";
+  static const guidebook = "$baseURL/api/category";
 
   static const addImage = "$baseURL/api/user/uploadImage";
 
