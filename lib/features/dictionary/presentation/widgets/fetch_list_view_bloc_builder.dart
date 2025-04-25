@@ -9,7 +9,7 @@ import 'package:sign_lang_app/features/dictionary/presentation/widgets/dictionar
 class FetchDictionaryListViewBlocConsumer extends StatefulWidget {
   final int itemCount;
   final String? searchText;
-  final bool shrinkWrap; 
+  final bool shrinkWrap;
   const FetchDictionaryListViewBlocConsumer({
     super.key,
     this.itemCount = 0,

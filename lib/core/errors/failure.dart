@@ -28,4 +28,5 @@ class ServerFailure extends Failure {
       case DioExceptionType.badResponse:
         return ServerFailure('Opps There was an Error, Please try again');
     }
-  }}
+  }
+}

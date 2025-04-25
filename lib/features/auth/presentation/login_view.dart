@@ -6,6 +6,8 @@ import 'package:sign_lang_app/core/utils/extentions.dart';
 import 'package:sign_lang_app/core/widgets/custom_background_color.dart';
 import 'package:sign_lang_app/features/auth/presentation/manager/login_cubit/login_cubit.dart';
 import 'package:sign_lang_app/features/auth/presentation/widgets/login_view_body.dart';
+import 'package:sign_lang_app/features/notification/cloud_notification/data/data_source/notification_remote_data_source.dart';
+import 'package:sign_lang_app/features/notification/cloud_notification/domain/repo/notification_repo.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -15,7 +17,7 @@ class LoginView extends StatelessWidget {
     bool dark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: BlocListener<LoginCubit, LoginState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LoginSuccess) {
               final args = {
                 'userName': state.userName,
@@ -27,6 +29,10 @@ class LoginView extends StatelessWidget {
                 arguments: args,
               );
               buildErrorBar(context, state.message);
+              await NotificationRepoImpl(
+                      notificationRemoteDataSource:
+                          NotificationRemoteDataSourceImpl())
+                  .subscribeToTopic('daily_updates');
             }
             if (state is LoginFailure) {
               buildErrorBar(context, state.errorMessage);

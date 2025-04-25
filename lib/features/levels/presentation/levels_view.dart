@@ -37,7 +37,7 @@ final String categoryImage = arguments['categoryImage'];
                     width: 30,
                     child: SvgPicture.asset(
                       'assets/images/Guidebook.svg',
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      //color: Theme.of(context).colorScheme.onPrimary,
                     )),
               ),
             )

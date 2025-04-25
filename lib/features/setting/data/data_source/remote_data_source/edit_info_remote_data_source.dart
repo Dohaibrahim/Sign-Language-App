@@ -9,39 +9,36 @@ import 'package:sign_lang_app/features/setting/domain/entity/edit_info_entity.da
 import '../../../../../core/utils/api_service.dart';
 import '../../../../auth/data/models/signIn_response.dart';
 
-class EditInfoRemoteDataSource{
+class EditInfoRemoteDataSource {
   final User? user;
   final DioClient dioClient;
-  EditInfoRemoteDataSource(this.dioClient , {this.user});
+  EditInfoRemoteDataSource(this.dioClient, {this.user});
   final String baseUrl = ApiUrls.baseURL;
 
-  Future<Either <Failure ,UserInfo>>  saveUserInfo(EditInformationEntity entity) async {
-
-    try{
-      var response = await getIt<DioClient>().put('$baseUrl/api/user/${user?.id}' , data: entity.toMap());
+  Future<Either<Failure, UserInfo>> saveUserInfo(
+      EditInformationEntity entity) async {
+    try {
+      var response = await getIt<DioClient>()
+          .put('$baseUrl/api/user/${user?.id}', data: entity.toMap());
       final userInfoResponse = UserInfo.fromJson(response.data);
-      final id= userInfoResponse.id ;
-        return right(userInfoResponse) ;
-    }
+      final id = userInfoResponse.id;
+      return right(userInfoResponse);
+    } on DioException catch (e) {
+      print('Dio error: ${e.message}');
+      if (e.response != null) {
+        print('Response data: ${e.response!.data}');
 
-    on DioException catch (e) {
-    print('Dio error: ${e.message}');
-    if (e.response != null) {
-    print('Response data: ${e.response!.data}');
+        final Map<String, dynamic> responseData =
+            e.response!.data is Map<String, dynamic> ? e.response!.data : {};
 
-    final Map<String, dynamic> responseData = e.response!.data is Map<String, dynamic>
-    ? e.response!.data
-        : {};
+        final errorResponse = UserInfo.fromJson(responseData);
+        return left(Failure(errorResponse.toString()));
+      }
 
-    final errorResponse = UserInfo.fromJson(responseData);
-    return left(Failure(errorResponse.toString()));
-    }
-
-    return Left(Failure('Dio error: ${e.message}'));
+      return Left(Failure('Dio error: ${e.message}'));
     } catch (e) {
-    print('Unexpected error: $e');
-    return Left(Failure(e.toString()));
+      print('Unexpected error: $e');
+      return Left(Failure(e.toString()));
     }
-
   }
 }

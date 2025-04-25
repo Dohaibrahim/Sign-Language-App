@@ -58,7 +58,9 @@ class ServicesWidget extends StatelessWidget {
                         buttonText: 'Start Now',
                         textStyle: TextStyles.font15BlackMedium.copyWith(
                             color: Colors.white, fontWeight: FontWeight.w600),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.pushNamed(Routes.beforeTranslationScreen);
+                        },
                       ),
                     ],
                   ),

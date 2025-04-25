@@ -4,6 +4,7 @@ import 'package:sign_lang_app/features/setting/domain/entity/edit_info_entity.da
 
 import '../../../../core/errors/failure.dart';
 
-abstract class EditInformationRepo{
-  Future<Either< Failure , UserInfo>> updateUserInfo(EditInformationEntity entity);
+abstract class EditInformationRepo {
+  Future<Either<Failure, UserInfo>> updateUserInfo(
+      EditInformationEntity entity);
 }

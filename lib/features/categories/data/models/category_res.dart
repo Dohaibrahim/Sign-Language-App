@@ -1,4 +1,3 @@
-
 class CategoryRes {
   String message;
   List<CategoryModel> categories;

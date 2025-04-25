@@ -14,7 +14,6 @@ class ChangePasswordReq {
   }
 }
 
-
 /*{
   "email":"Doha.testt@gmail.com",
   "oldPassword":"Dohatestt",

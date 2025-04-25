@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,23 +11,22 @@ import 'package:sign_lang_app/features/setting/domain/usecases/edit_info_usecase
 part 'edit_info_state.dart';
 
 class EditInfoCubit extends Cubit<EditInfoState> {
-
-final DioClient dioClient;
-
+  final DioClient dioClient;
 
   EditInfoCubit(this.dioClient) : super(EditInfoInitial());
 
-
-    static EditInfoCubit get(BuildContext context) => BlocProvider.of(context);
+  static EditInfoCubit get(BuildContext context) => BlocProvider.of(context);
   final GlobalKey<CustomButtonState> btnKey = GlobalKey();
 
-
- void execute({required EditInfoReqParams params, required EditInfoUsecase usecase}) async {
+  void execute(
+      {required EditInfoReqParams params,
+      required EditInfoUsecase usecase}) async {
     emit(EditInfoLoading());
     btnKey.currentState!.animateForward();
 
     try {
-      final Either<Failure, EditInfoResponse> result = await usecase.call(params);
+      final Either<Failure, EditInfoResponse> result =
+          await usecase.call(params);
 
       result.fold(
         (error) {
@@ -37,9 +35,8 @@ final DioClient dioClient;
           btnKey.currentState!.animateReverse();
         },
         (data) async {
-      
-  
-          print('edit profile successful: ${data.message}'); // Log success message
+          print(
+              'edit profile successful: ${data.message}'); // Log success message
           emit(EditInfoSuccess(
             message: data.message,
             userName: data.user!.name,
@@ -53,8 +50,4 @@ final DioClient dioClient;
       emit(EditInfoFailure(errorMessage: e.toString()));
     }
   }
-
-
-
-
 }
