@@ -23,10 +23,12 @@ class AddImageCubit extends Cubit<AddImageState> {
 
       result.fold(
         (failure) => emit(AddImageFailure(failure.toString())),
-        (data) {
+        (data) async {
           if (data.user.image != null) {
             currentImagePath = data.user.image;
-            ProfileImageService.saveProfileImagePath(data.user.image!);
+            await ProfileImageService.saveProfileImagePath(currentImagePath!);
+            //context.read<AddImageCubit>().emit(AddImageSuccess());
+            //ProfileImageService.saveProfileImagePath(data.user.image!);
           }
           //_loadLocalProfileImage();
           emit(AddImageSuccess(data));

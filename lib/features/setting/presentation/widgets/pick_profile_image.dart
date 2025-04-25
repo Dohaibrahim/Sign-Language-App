@@ -7,6 +7,7 @@ import 'package:sign_lang_app/core/di/dependency_injection.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
 import 'package:sign_lang_app/core/utils/profile_image_service.dart';
 import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
+import 'package:sign_lang_app/core/widgets/profile_circle_avatar.dart';
 import 'package:sign_lang_app/features/setting/data/models/add_image_req.dart';
 import 'package:sign_lang_app/features/setting/domain/usecase/add_image_use_case.dart';
 import 'package:sign_lang_app/features/setting/presentation/manager/add_image_cubit/add_image_cubit.dart';
@@ -24,11 +25,18 @@ class _PickProfileImageState extends State<PickProfileImage> {
   final picker = ImagePicker();
   File? _image;
   String? _localImagePath;
+  String? _imageUrl;
 
   @override
   void initState() {
+    //_loadImageUrl();
     super.initState();
     _loadLocalProfileImage();
+  }
+
+  Future<void> _loadImageUrl() async {
+    final url = await ProfileImageService.getProfileImagePath();
+    if (mounted) setState(() => _imageUrl = url);
   }
 
   // Load locally saved image path on init
@@ -50,7 +58,7 @@ class _PickProfileImageState extends State<PickProfileImage> {
         _image = imageFile;
       });
       // Save the image path locally
-      await ProfileImageService.saveProfileImagePath(pickedFile.path);
+      //await ProfileImageService.saveProfileImagePath(pickedFile.path);
     }
   }
 
@@ -74,10 +82,12 @@ class _PickProfileImageState extends State<PickProfileImage> {
                 //log('local path image is $_localImagePath');
                 return Column(
                   children: [
-                    CircleAvatar(
+                    ProfileCircleAvatar(currentUserName: widget.currentUserName)
+                    /*CircleAvatar(
                       radius: 40,
                       backgroundImage: FileImage(File(_localImagePath!)),
-                    ),
+                    ),*/
+                    ,
                     buildTextButton(context),
                   ],
                 );

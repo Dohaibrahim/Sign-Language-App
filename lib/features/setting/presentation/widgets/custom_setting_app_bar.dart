@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
 import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
 import 'package:sign_lang_app/core/widgets/profile_circle_avatar.dart';
-import 'package:sign_lang_app/features/setting/presentation/widgets/pick_profile_image.dart';
+import 'package:sign_lang_app/features/setting/presentation/manager/add_image_cubit/add_image_cubit.dart';
 
 class CustomSettingAppBar extends StatelessWidget
     implements PreferredSizeWidget {
@@ -25,7 +26,7 @@ class CustomSettingAppBar extends StatelessWidget
           } else {
             final userInfo = snapshot.data ??
                 {'username': 'User', 'email': 'user@example.com'};
-            //context.read<AddImageCubit>().addImage;
+
             return ListTile(
               leading: ProfileCircleAvatar(
                 currentUserName: userInfo['username']!,

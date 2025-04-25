@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sign_lang_app/core/utils/profile_image_service.dart';
@@ -22,25 +24,36 @@ class ProfileCircleAvatar extends StatefulWidget {
 class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
   String? _localImagePath;
 
-  Future<void> _loadLocalProfileImage() async {
-    final path = await ProfileImageService.getProfileImagePath();
-    if (path != null && mounted) {
-      setState(() {
-        _localImagePath = path;
-      });
-    }
+  Future<void> _loadImageUrl() async {
+    final url = await ProfileImageService.getProfileImagePath();
+    if (mounted) setState(() => _localImagePath = url);
   }
 
   @override
   void initState() {
-    _loadLocalProfileImage();
+    _loadImageUrl();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String? imagePath;
-    return BlocBuilder<AddImageCubit, AddImageState>(builder: (context, state) {
+    return BlocListener<AddImageCubit, AddImageState>(
+      listener: (context, state) {
+        if (state is AddImageSuccess) {
+          _loadImageUrl();
+          log('messageeeee');
+          //setState(() {});
+        }
+      },
+      child: CircleAvatar(
+        radius: 40,
+        child: _buildImageContent(),
+      ),
+    );
+
+    /*
+      builder: (context, state) {
+      
       if (state is AddImageSuccess) {
         setState(() {
           imagePath = state.addImageResponse.user.image;
@@ -68,6 +81,32 @@ class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
       }
       return SizedBox();
     });
+    */
+  }
+
+  Widget _buildImageContent() {
+    if (_localImagePath != null) {
+      return CachedNetworkImage(
+        imageUrl: _localImagePath!,
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      );
+    }
+    return _buildInitials();
+  }
+
+  Widget _buildInitials() {
+    return Text(
+      widget.currentUserName.substring(0, 2).toUpperCase(),
+      style: const TextStyle(color: Colors.white, fontSize: 23),
+    );
   }
 }
 
