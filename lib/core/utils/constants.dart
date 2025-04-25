@@ -13,6 +13,7 @@ class ApiUrls {
   static const login = "$baseURL/api/auth/signin";
   static const dictionary = "$baseURL/api/dectionary";
   static const questions = "$baseURL/api/level";
+  static const guidebook = "$baseURL/api/category";
 
   static const addImage = "$baseURL/api/user/uploadImage";
 
