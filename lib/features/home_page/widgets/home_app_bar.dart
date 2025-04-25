@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:sign_lang_app/core/theming/styles.dart';
-import 'package:sign_lang_app/core/widgets/profile_circle_avatar.dart';
 
 class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomHomeAppBar(
@@ -14,8 +13,7 @@ class CustomHomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: ProfileCircleAvatar(currentUserName: title),
-      //Image.asset('assets/images/image_peofile.png'),
+      leading: Image.asset('assets/images/image_peofile.png'),
       title: Text(
         title,
         style: TextStyles.font14GrayRegular.copyWith(

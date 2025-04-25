@@ -23,9 +23,10 @@ class Routes {
   static const String CategoriesView = '/CategoriesView';
   static const String LevelsView = '/LevelsView';
   static const String Guidebook = '/Guidebook';
-  static const String changePassword = '/ChangePassword';
+    static const String changePassword = '/ChangePassword';
+
+
   static const String quiz = '/quiz';
-  static const String beforeTranslationScreen = '/beforeTranslationScreen';
 
   //static const String commonWordsView = '/CommonWordsView';
 }

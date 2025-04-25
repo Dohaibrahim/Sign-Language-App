@@ -1,3 +1,4 @@
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScoreTrackerCubit extends Cubit<int> {
@@ -6,7 +7,7 @@ class ScoreTrackerCubit extends Cubit<int> {
   ScoreTrackerCubit({required this.totalQuestions}) : super(1);
 
   void incrementProgress() {
-    if (state < totalQuestions) {
+    if (state < totalQuestions ) {
       emit(state + 1);
     }
   }

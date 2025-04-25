@@ -21,14 +21,11 @@ class Answer extends StatelessWidget {
           width: 260.w,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-                width: 2, color: Theme.of(context).colorScheme.onPrimary),
+            border: Border.all(width: 2, color: Theme.of(context).colorScheme.onPrimary),
             color: backgroundColor,
           ),
           child: Center(
-            child: Text(answerText,
-                style: TextStyles.font20WhiteSemiBold
-                    .copyWith(color: Theme.of(context).colorScheme.onPrimary)),
+            child: Text(answerText, style: TextStyles.font20WhiteSemiBold.copyWith(color:  Theme.of(context).colorScheme.onPrimary)),
           ),
         ),
       ),

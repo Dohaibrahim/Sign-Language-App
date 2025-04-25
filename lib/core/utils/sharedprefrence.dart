@@ -69,11 +69,12 @@ class SharedPrefHelper {
     return sharedPreferences.getString(key) ?? '';
   }
 
-  /// Gets a String value from SharedPreferences with given [key].
-  static Future<String?> getStringNullable(String key) async {
-    debugPrint('SharedPrefHelper : getString with key : $key');
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences
-        .getString(key); // Return null if the key doesn't exist
-  }
+
+/// Gets a String value from SharedPreferences with given [key].
+static Future<String?> getStringNullable(String key) async {
+  debugPrint('SharedPrefHelper : getString with key : $key');
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  return sharedPreferences.getString(key); // Return null if the key doesn't exist
+}
+
 }
