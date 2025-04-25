@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sign_lang_app/core/routing/routes.dart';
+import 'package:sign_lang_app/core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/extentions.dart';
 import 'package:sign_lang_app/features/categories/data/models/category_res.dart';
 import 'package:sign_lang_app/features/categories/presentation/manager/cubit/categories_cubit.dart';
@@ -12,11 +14,10 @@ class CategoriesViewBody extends StatelessWidget {
   Widget build(BuildContext context) {
     // Define a list of image paths
     final List<String> imagePaths = [
-      "assets/images/Group 36855 (4).png",
-      "assets/images/Frame 3 (1).png",
-      "assets/images/Frame 5.png",
-      //'assets/images/Frame 4.png',
-      'assets/images/Frame 6.png',
+      'assets/images/intoduce_your_self.svg',
+      'assets/images/body_parts.svg',
+      'assets/images/hobbies.svg',
+      'assets/images/favourites.svg',
       'assets/images/public_blaces.svg',
       'assets/images/nature.svg',
     ];
@@ -62,14 +63,19 @@ class _GridViewBlocConsumerState extends State<GridViewBlocConsumer> {
         if (state is CategoriesLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is CategoriesSuccess) {
-          return CategoriesMap(
-            item: (BuildContext context, int index) {
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10.0,
+              mainAxisSpacing: 10.0,
+            ),
+            itemCount: state.categories.length,
+            itemBuilder: (BuildContext context, int index) {
               return CategoriesItem(
                 category: state.categories[index],
                 imagePath: widget.imagePaths[index % widget.imagePaths.length],
               );
             },
-            itemsLength: state.categories.length,
           );
         } else {
           return Center(
@@ -84,128 +90,6 @@ class _GridViewBlocConsumerState extends State<GridViewBlocConsumer> {
 }
 
 class CategoriesItem extends StatelessWidget {
-  final String imagePath;
-  final CategoryModel category;
-
-  const CategoriesItem(
-      {super.key, required this.imagePath, required this.category});
-
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.sizeOf(context).width;
-    double height = MediaQuery.sizeOf(context).height;
-    return SizedBox(
-        width: 350,
-        //height: 200,
-        child: GestureDetector(
-          onTap: () {
-            context.pushNamed(Routes.LevelsView, arguments: {
-              'categoryId': category.id,
-              'categoryName': category.name
-            }
-                // Pass category ID as an argument
-                );
-          },
-          child: Stack(
-            children: [
-              Positioned(
-                left: 18,
-                child: Image.asset(
-                  imagePath,
-                  //"assets/images/Group 36855 (4).png",
-                  width: width * 0.28, //130,
-                  //height: 200,
-                ),
-              ),
-              Positioned(
-                width: width * 0.36,
-                top: height * .107,
-                //left: 0,
-                child: CategoryName(
-                  //width: width * 0.355,
-                  text: category.name,
-                ),
-              )
-            ],
-          ),
-        ));
-  }
-}
-
-class CategoryName extends StatelessWidget {
-  const CategoryName({super.key, required this.text});
-
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 4),
-      decoration: BoxDecoration(
-          color: Color(0xff75808f),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-            fontWeight: FontWeight.w600,
-            fontSize: 16),
-      ),
-    );
-  }
-}
-
-class CategoriesMap extends StatelessWidget {
-  const CategoriesMap(
-      {super.key, required this.itemsLength, required this.item});
-  final int itemsLength;
-  final Widget? Function(BuildContext, int) item;
-  //final Widget item;
-
-  EdgeInsets _getPaddingVal(int index, context) {
-    double scWidth = MediaQuery.sizeOf(context).width;
-    if (index == 0) {
-      return EdgeInsets.symmetric(horizontal: scWidth * 0.27);
-    } else if (index % 2 == 0) {
-      return EdgeInsets.only(right: scWidth * 0.55);
-    } else {
-      return EdgeInsets.only(left: scWidth * 0.55);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: ListView.builder(
-        //shrinkWrap: true, // Allows ListView to take only the needed space
-        physics:
-            AlwaysScrollableScrollPhysics(), // Prevents ListView from interfering with parent scroll
-        scrollDirection: Axis.vertical,
-        //padding: EdgeInsets.symmetric(horizontal: 20),
-        itemCount: itemsLength,
-        itemBuilder: (context, index) {
-          return SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).height * 0.17,
-            child: //Align(
-                //alignment: _getAlignment(index),
-                //child:
-                Padding(
-              padding: _getPaddingVal(index, context),
-              //padding: const EdgeInsets.only(left: 27),
-              child: item(context, index),
-              //),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-/*class CategoriesItem extends StatelessWidget {
   final String imagePath;
   final CategoryModel category;
 
@@ -259,4 +143,3 @@ class CategoriesMap extends StatelessWidget {
     );
   }
 }
-*/

@@ -11,6 +11,6 @@ class FetchCategoriesListUsecase extends UseCase<List<CategoryModel>, NoParam> {
 
   @override
   Future<Either<Failure, List<CategoryModel>>> call([NoParam? param]) async {
-    return await categoryRepo.getCategories();
+    return await categoryRepo.getCategories(); 
   }
 }

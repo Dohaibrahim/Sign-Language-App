@@ -10,7 +10,6 @@ import 'package:sign_lang_app/features/auth/presentation/widgets/loading_button.
 import 'package:sign_lang_app/features/setting/data/models/edit_info_request.dart';
 import 'package:sign_lang_app/features/setting/domain/usecases/edit_info_usecase.dart';
 import 'package:sign_lang_app/features/setting/presentation/Edit_info_cubit/edit_info_cubit.dart';
-import 'package:sign_lang_app/features/setting/presentation/widgets/pick_profile_image.dart';
 import '../../../../core/theming/styles.dart';
 import 'package:sign_lang_app/core/utils/sharedprefrence.dart';
 
@@ -65,9 +64,6 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
             SizedBox(
               height: 30.h,
             ),
-            PickProfileImage(
-              currentUserName: userName,
-            ),
             AppTextFormField(
               hintText: 'Name',
               initialValue: userName,
@@ -89,7 +85,9 @@ class _EditProfileViewBodyState extends State<EditProfileViewBody> {
             BlocListener<EditInfoCubit, EditInfoState>(
               listener: (context, state) {
                 if (state is EditInfoSuccess) {
+
                   context.pop();
+
                 }
               },
               child: BlocBuilder<EditInfoCubit, EditInfoState>(

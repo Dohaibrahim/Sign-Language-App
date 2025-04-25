@@ -4,15 +4,15 @@ class LoginResponse {
   final User? user; // Make user nullable to handle error responses
 
   LoginResponse({required this.message, required this.token, this.user});
-
+  
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     // Check if the response contains a 'user' key
     String token = json['token'] ?? ''; // Handle missing token
     return LoginResponse(
       message: json['message'] ?? 'Unknown error occurred.',
       token: token, // Use the token variable
-      user: json.containsKey('user') && json['user'] != null
-          ? User.fromJson(json['user'])
+      user: json.containsKey('user') && json['user'] != null 
+          ? User.fromJson(json['user']) 
           : null, // Parse the user if present
     );
   }

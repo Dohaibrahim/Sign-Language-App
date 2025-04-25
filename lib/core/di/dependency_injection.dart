@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sign_lang_app/core/utils/api_service.dart';
 import 'package:sign_lang_app/features/auth/data/data_source/auth_remote_data_source.dart';
@@ -27,13 +26,9 @@ import 'package:sign_lang_app/features/levels/data/repo/repo_impl.dart';
 import 'package:sign_lang_app/features/levels/domain/repo/repo.dart';
 import 'package:sign_lang_app/features/levels/domain/usecase/fetch_levels_usecase.dart';
 import 'package:sign_lang_app/features/levels/presentation/manager/levels_cubit.dart';
-import 'package:sign_lang_app/features/setting/data/data_source/add_image_data_source/add_image_remote_data_source.dart';
 import 'package:sign_lang_app/features/setting/data/datasource/remote_data_source.dart';
-import 'package:sign_lang_app/features/setting/data/repo_impl/add_image_repo_impl.dart';
 import 'package:sign_lang_app/features/setting/data/repo_impl/repo_impl.dart';
-import 'package:sign_lang_app/features/setting/domain/repo/add_image_repo.dart';
 import 'package:sign_lang_app/features/setting/domain/repos/repos.dart';
-import 'package:sign_lang_app/features/setting/domain/usecase/add_image_use_case.dart';
 import 'package:sign_lang_app/features/setting/domain/usecases/edit_info_usecase.dart';
 
 final getIt = GetIt.instance;
@@ -53,15 +48,6 @@ void setupServiceLocator() {
   getIt.registerSingleton<AuthRepo>(AuthRepoImpl());
 
   getIt.registerSingleton<CategoryRepo>(CategoriesRepoImpl());
-
-  getIt.registerSingleton<AddImageRepo>(AddImageRepoImpl());
-
-  getIt.registerSingleton<AddImageRemoteDataSource>(
-      AddImageRemoteDataSourceImpl(dioClient: getIt<DioClient>()));
-
-  getIt.registerSingleton<AddImageUseCase>(AddImageUseCase());
-
-  //getIt.registerSingleton<FirebaseMessaging>(FirebaseMessaging.instance);
 
 //getIt.registerSingleton<EditRemoteDataSource>(EditRemoteDataSourceImpl());
 

@@ -18,7 +18,7 @@ class ApiUrls {
   static const addImage = "$baseURL/api/user/uploadImage";
 
   static const category = "$baseURL/api/category";
-
+  static const guidebook = "$baseURL/api/category";
   static const levels = "$baseURL/api/level";
   static const changePass = '$baseURL/api/auth/changepassword';
 

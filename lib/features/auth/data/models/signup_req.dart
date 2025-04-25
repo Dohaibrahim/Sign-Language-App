@@ -1,3 +1,4 @@
+
 class SignupReqParams {
   final String name;
   final String email;
@@ -18,4 +19,7 @@ class SignupReqParams {
       'repassword': repassword,
     };
   }
+
+
+
 }

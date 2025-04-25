@@ -124,12 +124,10 @@ class _QuizViewBodyState extends State<QuizViewBody> {
                             selectedAnswerIndex: _selectedAnswerIndex,
                             showFeedback: _showFeedback,
                             onNextQuestion: _goToNextQuestion,
-
                           )
                         : Result(_totalScore, _resetQuiz),
                   ],
                 );
-
               }
               return Container();
             },
