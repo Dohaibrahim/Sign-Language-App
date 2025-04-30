@@ -29,8 +29,8 @@ class QuizView extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primaryFixed,
         //backgroundColor: const Color(0xff141F23),
         body: CustomStack(
-            child:
-                QuizViewBody(levelId: levelId)), // Pass levelId to QuizViewBody
+            child: QuizViewBody(
+                levelId: levelId ?? '')), // Pass levelId to QuizViewBody
       ),
     );
   }

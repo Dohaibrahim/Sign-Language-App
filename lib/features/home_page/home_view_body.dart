@@ -55,14 +55,17 @@ class HomeViewBody extends StatelessWidget {
                     ),
                     const ServicesWidget(),
                     const SizedBox(height: 12),
-                    const BuildsHeader(title : 'Your Progress',seeAllVisible  : false,),
-                     const SizedBox(height: 12),
-YourProgressItem(),
- const SizedBox(height: 12),
-
-                   
-
-                    const BuildsHeader(title : 'Common Words', seeAllVisible: true,),
+                    const BuildsHeader(
+                      title: 'Your Progress',
+                      seeAllVisible: false,
+                    ),
+                    const SizedBox(height: 12),
+                    YourProgressItem(),
+                    const SizedBox(height: 12),
+                    const BuildsHeader(
+                      title: 'Common Words',
+                      seeAllVisible: true,
+                    ),
                     const SizedBox(height: 12),
                     const HorizontalWordList(),
                   ],
@@ -75,6 +78,7 @@ YourProgressItem(),
     );
   }
 }
+
 class YourProgressItem extends StatelessWidget {
   const YourProgressItem({super.key});
 
@@ -96,10 +100,14 @@ class YourProgressItem extends StatelessWidget {
           var progressData = snapshot.data!;
           int currentLevel = progressData['currentLevel'] ?? 0;
           int totalLevels = progressData['totalLevels'] ?? 5;
-          String categoryImage = progressData['categoryImage'] ?? 'assets/images/default_category_image.png';  // Default image in case it's not found
-          String categoryName = progressData['categoryName'] ?? 'Category';  // Default category name
+          String categoryImage = progressData['categoryImage'] ??
+              'assets/images/body_parts.svg'; // Default image in case it's not found
 
-          double progress = currentLevel / totalLevels;
+          String categoryName = progressData['categoryName'] ??
+              'Category'; // Default category name
+
+          double progress = totalLevels > 0 ? currentLevel / totalLevels : 0;
+          //currentLevel / totalLevels;
 
           return Row(
             children: [
@@ -111,15 +119,16 @@ class YourProgressItem extends StatelessWidget {
                 height: 112,
                 width: 113,
                 child: Center(
-                  child: SvgPicture.asset(categoryImage)  // Display the category image
-                ),
+                    child: SvgPicture.asset(
+                        categoryImage) // Display the category image
+                    ),
               ),
               SizedBox(width: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
-                    categoryName,  // Display the category name
+                    categoryName, // Display the category name
                     style: TextStyles.font20WhiteSemiBold.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary),
                   ),
@@ -130,7 +139,8 @@ class YourProgressItem extends StatelessWidget {
                         SizedBox(
                           height: 20,
                           width: 20,
-                          child: SvgPicture.asset('assets/images/favourites.svg'),
+                          child:
+                              SvgPicture.asset('assets/images/favourites.svg'),
                         ),
                         SizedBox(width: 6),
                         Text(
@@ -155,8 +165,12 @@ class YourProgressItem extends StatelessWidget {
   Future<Map<String, dynamic>> _getProgressData() async {
     int currentLevel = await SharedPrefHelper.getInt("current_level") ?? 0;
     int totalLevels = await SharedPrefHelper.getInt("total_levels") ?? 5;
-    String categoryImage = await SharedPrefHelper.getStringNullable("category_image") ?? 'assets/images/default_category_image.png';  // Default image in case it's not found
-    String categoryName = await SharedPrefHelper.getStringNullable("category_name") ?? 'Category';  // Default category name
+    String categoryImage = await SharedPrefHelper.getStringNullable(
+            "category_image") ??
+        'assets/images/body_parts.svg'; // Default image in case it's not found
+    String categoryName =
+        await SharedPrefHelper.getStringNullable("category_name") ??
+            'Category'; // Default category name
 
     return {
       'currentLevel': currentLevel,

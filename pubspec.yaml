@@ -71,6 +71,8 @@ dependencies:
   cached_network_image: ^3.4.1
 
   dotted_border: ^2.1.0
+  uni_links: ^0.5.1
+  firebase_dynamic_links: ^6.1.5
 
 
 

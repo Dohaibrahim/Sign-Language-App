@@ -19,35 +19,6 @@ class ProfileImageService {
     return imageName != null ? '$baseImageUrl$imageName' : null;
   }
 
-  /*static Future<String?> getProfileImagePath() async {
-    final path =
-        await SharedPrefHelper.getString(SharedPrefKeys.profileImagePath);
-
-    if (path != null) {
-      final file = File(path);
-      if (await file.exists()) {
-        return path;
-      }
-    }
-    return null;
-  }*/
-
-  /*static Future<void> clearProfileImage() async {
-    final path =
-        await SharedPrefHelper.getString(SharedPrefKeys.profileImagePath);
-    if (path != null) {
-      try {
-        final file = File(path);
-        if (await file.exists()) {
-          await file.delete();
-        }
-      } catch (e) {
-        log('Error deleting profile image: $e');
-      }
-    }
-    await SharedPrefHelper.removeData(SharedPrefKeys.profileImagePath);
-  }*/
-
   static Future<void> clearProfileImage() async {
     await SharedPrefHelper.removeData(SharedPrefKeys.profileImagePath);
   }

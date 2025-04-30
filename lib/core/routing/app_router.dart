@@ -469,9 +469,12 @@ import 'package:sign_lang_app/core/animations/page_nav_animation.dart';
 import 'package:sign_lang_app/core/di/dependency_injection.dart';
 import 'package:sign_lang_app/core/routing/routes.dart';
 import 'package:sign_lang_app/core/utils/api_service.dart';
+import 'package:sign_lang_app/features/auth/presentation/manager/forget_password_cubit/forget_password_cubit.dart';
 import 'package:sign_lang_app/features/auth/presentation/manager/login_cubit/login_cubit.dart';
 import 'package:sign_lang_app/features/auth/presentation/manager/signup_cubit/signup_cubit.dart';
-import 'package:sign_lang_app/features/auth/reset_password/presentation/reset_password_view.dart';
+import 'package:sign_lang_app/features/auth/presentation/reset_password_view.dart';
+import 'package:sign_lang_app/features/auth/presentation/forget_password_view.dart';
+import 'package:sign_lang_app/features/auth/presentation/widgets/reset_password_view_body.dart';
 import 'package:sign_lang_app/features/categories/domain/usecase/fetch_categories_usecase.dart';
 import 'package:sign_lang_app/features/categories/presentation/manager/cubit/categories_cubit.dart';
 import 'package:sign_lang_app/features/change_password/change_password_view.dart';
@@ -504,7 +507,7 @@ import 'package:sign_lang_app/features/translation/presentation/before_translati
 
 import '../../features/auth/presentation/login_view.dart';
 import '../../features/auth/presentation/register_view.dart';
-import '../../features/bottom_nav/button_navigation.dart';
+import '../../features/bottom_nav/bottom_navigation.dart';
 import '../../features/learn/presentation/achievements_view.dart';
 import '../../features/setting/presentation/Edit_info_cubit/edit_info_cubit.dart';
 import '../../features/setting/presentation/views/about_us_view.dart';
@@ -725,11 +728,19 @@ class AppRouter {
       case Routes.resetPassword:
         if (Platform.isIOS) {
           return CupertinoPageRoute(
-              builder: (builder) => const ResetPasswordView());
+              builder: (builder) => BlocProvider(
+                  create: (context) => ForgetPasswordCubit(),
+                  child: const ForgetPasswordView()));
         } else {
           return PageNavAnimation.applyPageAnimation(
-              screen: const ResetPasswordView());
+              screen: BlocProvider(
+                  create: (context) => ForgetPasswordCubit(),
+                  child: const ResetPasswordView()));
         }
+
+      case Routes.newPasswordView:
+        return MaterialPageRoute(
+            builder: (_) => ResetPasswordView(), settings: settings);
 
       case Routes.changePassword:
         if (Platform.isIOS) {

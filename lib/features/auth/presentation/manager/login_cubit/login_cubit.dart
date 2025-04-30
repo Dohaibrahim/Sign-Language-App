@@ -41,6 +41,7 @@ class LoginCubit extends Cubit<LoginState> {
           // Save email and username
           print('Login successful: ${data.token}'); // Log success message
           emit(LoginSuccess(
+            userImage: data.user!.image ?? '',
             message: data.message,
             userName: data.user!.name,
             userEmail: data.user!.email,

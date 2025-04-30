@@ -82,6 +82,8 @@ class SettingViewBody extends StatelessWidget {
             backIcon: false,
             onTap: () async {
               await SharedPrefHelper.removeData(SharedPrefKeys.userToken);
+              await SharedPrefHelper.removeData(
+                  SharedPrefKeys.profileImagePath);
               context.pushNamedAndRemoveUntil(Routes.loginScreen,
                   predicate: (Route<dynamic> route) =>
                       false); // Remove all previous routes)

@@ -4,6 +4,8 @@ import 'package:sign_lang_app/core/di/dependency_injection.dart';
 import 'package:sign_lang_app/core/errors/failure.dart';
 import 'package:sign_lang_app/core/utils/api_service.dart';
 import 'package:sign_lang_app/core/utils/constants.dart';
+import 'package:sign_lang_app/features/auth/data/models/forget_password_model.dart';
+import 'package:sign_lang_app/features/auth/data/models/reset_password_model.dart';
 import 'package:sign_lang_app/features/auth/data/models/signIn_response.dart';
 import 'package:sign_lang_app/features/auth/data/models/signin_req.dart';
 import 'package:sign_lang_app/features/auth/data/models/signup_req.dart';
@@ -13,6 +15,11 @@ abstract class AuthRemoteDataSource {
   Future<Either<Failure, SignupResponse>> signUp(SignupReqParams signupReq);
 
   Future<Either<Failure, LoginResponse>> signIn(SigninReqParams signInReq);
+
+  Future<Either<Failure, ForgetPasswordResponse>> forgetPassword(
+      ForgetPasswordReq forgetPasswordReq);
+  Future<Either<Failure, ResetPasswordResponse>> resetPassword(
+      ResetPasswordReq resetPasswordReq, String token);
 }
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
@@ -89,6 +96,42 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     } catch (e) {
       print('Unexpected error: $e');
       return Left(Failure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ForgetPasswordResponse>> forgetPassword(
+      ForgetPasswordReq forgetPasswordReq) async {
+    try {
+      var request = await getIt<DioClient>().post(
+        ApiUrls.forgetPassword,
+        data: forgetPasswordReq.toMap(),
+      );
+      var response = ForgetPasswordResponse.fromMap(request.data);
+
+      return Right(response);
+    } on DioException catch (e) {
+      return Left(Failure(e.toString()));
+    } catch (e) {
+      return Left(Failure('error : ${e.toString()}'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ResetPasswordResponse>> resetPassword(
+      ResetPasswordReq resetPasswordReq, String token) async {
+    try {
+      var request = await getIt<DioClient>().post(
+        '${ApiUrls.resetPassword}/$token',
+        data: resetPasswordReq.toMap(),
+      );
+
+      var response = ResetPasswordResponse.fromMap(request.data);
+      return Right(response);
+    } on DioException catch (e) {
+      return Left(Failure(e.toString()));
+    } catch (e) {
+      return Left(Failure('error : ${e.toString()}'));
     }
   }
 }
